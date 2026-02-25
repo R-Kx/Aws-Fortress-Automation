@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  flask:
+    build: .
+    container_name: flask_fortress
+    ports:
+      - "80:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - PYTHONNONBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    networks:
+      - flask-network
+
+  db:
+    image: postgres:alpine
+    container_name: posgres_db
+    ports:
+      - "70:5432"
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 7s
+      timeout: 5s
+      retries: 5
+    networks:
+      - flask-network
+    
+networks:
+  flask-network:
+    driver: bridge
+
+volumes:
+  postgres_volume:
