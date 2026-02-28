@@ -24,4 +24,8 @@ docker-compose.override.yml
 .idea/
 .vscode/
 *.swp
-Thumbs.db
+Thumbs.dbvars.yml
+*.pem
+*.key
+*.pub
+.vault_pass
