@@ -23,3 +23,5 @@ Thumbs.db
 *.key
 *.pub
 .vault_pass
+**/vars.yml
+**/all_code.txt
