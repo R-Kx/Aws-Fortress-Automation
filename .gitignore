@@ -29,3 +29,4 @@ Thumbs.dbvars.yml
 *.key
 *.pub
 .vault_pass
+vars.yml
