@@ -13,7 +13,7 @@ This repository contains a production-grade infrastructure automation project us
 The infrastructure layer is **100% complete and verified**. The project is currently in the "Last Mile" phase:
 - [x] [cite_start]**VPC & Security:** Multi-tier networking and NACL/SG rules configured. [cite: 44, 45]
 - [x] [cite_start]**Resource Provisioning:** EC2, RDS, and S3 integration via Terraform. [cite: 46, 47]
-- [x] [cite_start]**Ansible Core:** Successfully established secure connectivity and bootstrapping. [cite: 58, 59]
+- [ ] [cite_start]**Ansible Core:** Successfully established secure connectivity and bootstrapping. [cite: 58, 59]
 - [ ] **CI/CD Integration:** Finalizing GitHub Actions workflow for automated ECR pushes and remote deployment.
 - [ ] **App Deployment:** Transitioning from Docker-Compose to full ECS/EKS orchestration (Roadmap).
 
