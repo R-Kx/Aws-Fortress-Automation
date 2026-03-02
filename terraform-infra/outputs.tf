@@ -51,3 +51,11 @@ output "asg_tags" {
 output "rds_endpoint_address" {
     value = aws_db_instance.flask_rds.address
 }
+
+output "github_actions_role_arn" {
+    value = aws_iam_role.github_actions_role.arn
+}
+
+output "ansible_vault_pass" {
+    value = aws_secretsmanager_secret.ansible_vault_pass.arn
+}
