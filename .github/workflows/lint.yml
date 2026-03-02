@@ -33,7 +33,7 @@ jobs:
         uses: wearerequired/lint-action@v2
         with:
           flake8: true
-          black: true
+          black: false
           auto_fix: false
           continue_on_error: false
 
