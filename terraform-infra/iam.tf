@@ -33,11 +33,11 @@ resource "aws_iam_role_policy" "api_custom_policy" {
     policy = jsonencode({
         Version    = "2012-10-17"
         Statement = [
-            {
+            /*{
                 Effect   = "Allow"
                 Action   = ["secretsmanager:GetSecretValue"]
                 Resource = [aws_secretsmanager_secret.db_secret_pass.arn]
-            },
+            },*/
             {
                 Effect   = "Allow"
                 Action   = ["s3:PutObject", "s3:GetObject", "s3:ListBucket"]
@@ -82,4 +82,74 @@ resource "aws_iam_role_policy" "lambda_custom_policy" {
           }
         ]
     })    
+}
+
+resource "aws_iam_openid_connect_provider" "github" {
+    url             = "https://token.actions.githubusercontent.com"
+    client_id_list  = ["sts.amazonaws.com"]
+    thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
+}
+
+resource "aws_iam_role" "github_actions_role" {
+    name = "${var.project_name}-github-actions-role"
+
+    assume_role_policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [{
+            Action = "sts:AssumeRoleWithWebIdentity"
+            Effect = "Allow"
+            Principal = {
+                Federated = aws_iam_openid_connect_provider.github.arn
+            }
+            Condition = {
+                StringLike = {
+                    "token.actions.githubusercontent.com:sub" = "repo:R-Kx/Aws-Fortress-Automation:*"
+                }
+                StringEquals ={
+                    "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+                }
+            }
+        }]
+    })
+}
+
+resource "aws_iam_role_policy" "github_action_policy" {
+    name = "${var.project_name}-github-action-policy"
+    role = aws_iam_role.github_actions_role.id
+
+    policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+            { Effect   = "Allow"
+              Action   = ["secretsmanager:GetSecretValue"]
+              Resource = [aws_secretsmanager_secret.ansible_vault_pass.arn]
+
+            },
+            {
+                Effect   = "Allow"
+                Action   = ["ecr:GetAuthorizationToken"]
+                Resource = "*"
+            },
+            {
+                Effect = "Allow"
+                Action = [
+                    "ecr:BatchCheckLayerAvailability",
+                    "ecr:PutImage",
+                    "ecr:InitiateLayerUpload",
+                    "ecr:UploadLayerPart",
+                    "ecr:CompleteLayerUpload"
+                ]
+                Resource = [aws_ecr_repository.flask_app.arn]
+            },
+            {
+                Effect = "Allow"
+                Action = [
+                    "ssm:StartSession",
+                    "ssm:SendCommand",
+                    "ec2:DescribeInstances"
+                ]
+                Resource = "*"
+            }
+        ]
+    })
 }

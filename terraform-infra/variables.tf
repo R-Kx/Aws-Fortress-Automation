@@ -18,10 +18,18 @@ variable "enable_waf" {}
 
 variable "db_username" {}
 
+variable "rds_password" {
+	sensitive = true
+}
+
 variable "my_mail" {}
 
 variable "SLACK_WEBHOOK_URL" {}
 
 variable "python_version" {}
+
+variable "ansible_vault_pass" {
+	sensitive = true
+}
 
  

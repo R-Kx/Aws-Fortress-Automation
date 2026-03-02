@@ -28,6 +28,14 @@ Thumbs.dbvars.yml
 *.pem
 *.key
 *.pub
+ansible/roles/external/
+ansible/roles/galaxy/
+*.retry
+.ansible_cache/
+ansible/.ansible/
+ansible.log
 .vault_pass
-**/vars.yml
-**/all_code.txt
+venv/
+.venv/
+__pycache__/
+*.pyc

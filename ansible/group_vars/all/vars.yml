@@ -1,0 +1,6 @@
+app_port: 5000
+db_port: 5432
+image_name: flask_project
+image_tagss: latest
+region: eu-central-1
+container_name: flask-api-svc

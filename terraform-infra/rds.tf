@@ -11,7 +11,7 @@ resource "aws_db_instance" "flask_rds" {
     instance_class         = "db.t3.micro"
     db_name                = "flask_db"
     username               = var.db_username
-    password               = random_password.db-pass.result
+    password               = var.rds_password
     skip_final_snapshot    = true
     db_subnet_group_name   = aws_db_subnet_group.flask_db_sg.name
     vpc_security_group_ids = [aws_security_group.rds_sg.id]

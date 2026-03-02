@@ -42,6 +42,15 @@ apt-get install -y python3-pip
 echo "Server is ready for Ansible"
 EOF
 )
+
+   tag_specifications {
+     resource_type = "instance"
+
+     tags ={
+        Name = "flask-app"
+        Role = "webserver"
+     }
+   }
 }
 
 resource "aws_autoscaling_group" "flask_asg" {
@@ -55,5 +64,11 @@ resource "aws_autoscaling_group" "flask_asg" {
     launch_template {
         id      = aws_launch_template.flask_api_lt.id
         version = "$Latest"
+    }
+
+    tag {
+        key                 = "Role"
+        value               = "webserver"
+        propagate_at_launch = true 
     }
 }
