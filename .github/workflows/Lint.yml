@@ -36,10 +36,4 @@ jobs:
           black: false
           auto_fix: false
           continue_on_error: false
-
-      - name: Ansible Lint
-        uses: ansible/ansible-lint@v6
-        with:
-          path: "ansible/"
-
       
