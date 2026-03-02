@@ -30,7 +30,7 @@ jobs:
           pip install --no-cache-dir -r requirements-dev.txt
 
       - name: Run Lint
-        uses: wearerequired/lint-actიion@v2
+        uses: wearerequired/lint-action@v2
         with:
           flake8: true
           black: true
