@@ -1,0 +1,49 @@
+name: Build-Push-Image
+
+on:
+  workflow_run:
+    workflows:
+      - "Tests"
+    branches:
+      - main
+    types:
+      - completed
+
+jobs:
+  Build-Push:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v5
+
+      - name: Configure AWS Creds
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: GitHubActions-ECR-Push
+
+      - name: Get caller identity
+        run: |
+          aws sts get-caller-identity
+
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build-Push image
+        env:
+          REGISTRY: ${{ steps.login-ecr.registry }}
+          REPOSITORY: ${{ vars.ECR_REPOSITORY_NAME }}
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG . 
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          
+          
+          
