@@ -7,5 +7,5 @@ exclude =
     terraform-infra,
     *.tf
 
-ignore = E501, W291, W293, E302, E305
+ignore = E501, W291, W293, E302, E305, W292
 max-line-length = 88
