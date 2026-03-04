@@ -7,11 +7,11 @@ services:
     environment:
       - PYTHONBUFFERED=1
       - PYTHONDONTWRITEBYTECODE=1
-      - DB_USER="{{ db_user }}"
-      - DB_PASSWORD="{{ db_pass }}"
-      - DB_HOST="{{ db_host }}"
-      - DB_NAME="{{ db_name }}"
-      - DB_PORT="{{ db_port }}"
+      - DB_USER={{ db_user }}
+      - DB_PASSWORD={{ db_pass }}
+      - DB_HOST={{ db_host }}
+      - DB_NAME={{ db_name }}
+      - DB_PORT={{ db_port }}
     networks:
       - flask-network
     restart: always
