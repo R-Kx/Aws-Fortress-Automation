@@ -43,13 +43,20 @@ jobs:
                 template-path: 'terraform-infra/iam.tf'
                 region: ${{ vars.AWS_REGION }}
                 args: --output-file terraform/reports/validation-logs.txt
+
+            - name: Debug report existence
+              if: always()
+              run: |
+                echo "=== Listing terraform/reports ==="
+                ls -lah terraform/reports || true
+                echo "================================"
             
             - name: Upload Policy validation report
               if: always()
               uses: actions/upload-artifact@v4
               with:
                 name: iam-policy-report
-                path: terraform/reports/validation-logs.txt"
+                path: terraform/reports/validation-logs.txt
                 retention-days: 1
 
   
