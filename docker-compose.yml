@@ -5,7 +5,7 @@ services:
     build: .
     container_name: flask_fortress
     ports:
-      - "80:5000"
+      - "5000:5000"
     volumes:
       - .:/app
     depends_on:

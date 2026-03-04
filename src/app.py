@@ -19,6 +19,7 @@ def home():
     )
 
 
+@app.route("/healthcheck")
 @app.route("/health")
 def health():
     db_message = check_db_status()

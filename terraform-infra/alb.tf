@@ -19,6 +19,7 @@ resource "aws_lb_target_group" "flask_tg_group" {
         matcher             = "200-299"
         timeout             = "10"
         path                = "/healthcheck"
+        port                = "5000"
         unhealthy_threshold = "2"
     }
 }

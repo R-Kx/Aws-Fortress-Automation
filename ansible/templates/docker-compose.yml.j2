@@ -3,7 +3,7 @@ services:
     image: "{{ ecr_registry }}/{{ image_name }}:{{ image_tagss }}"
     container_name: "{{ container_name }}"
     ports:
-      - "80:5000"
+      - "5000:5000"
     environment:
       - PYTHONBUFFERED=1
       - PYTHONDONTWRITEBYTECODE=1

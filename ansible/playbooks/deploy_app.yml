@@ -8,9 +8,17 @@
     - name: ECR Login
       shell: "aws ecr get-login-password --region {{ region }} | docker login --username AWS --password-stdin {{ ecr_registry }}"
 
-    - name: Pull And start container
-      shell: |
-        docker compose -f /opt/flask-app/docker-compose.yml pull
-        docker compose -f /opt/flask-app/docker-compose.yml up -d --remove-orphans
-      args:
-        chdir: /opt/flask-app
+    #- name: Pull And start container
+      #shell: |
+        #docker compose -f /opt/flask-app/docker-compose.yml pull
+        #docker compose -f /opt/flask-app/docker-compose.yml up -d --remove-orphans
+      #args:
+        #hdir: /opt/flask-app
+
+    - name: Deploy with Docker Compose
+      community.docker.docker_compose_v2:
+         project_src: /opt/flask-app
+         state: present
+         pull: always
+         remove_orphans: yes
+      become: true
