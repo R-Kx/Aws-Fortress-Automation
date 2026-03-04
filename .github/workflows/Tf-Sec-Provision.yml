@@ -40,14 +40,14 @@ jobs:
                 policy-check-type: 'VALIDATE_POLICY'
                 template-path: 'terraform-infra/iam.tf'
                 region: ${{ vars.AWS_REGION }}
-                args: --output-file validation-logs.txt
+                args: --output-file terraform-infra/validation-logs.txt
             
             - name: Upload Policy validation report
               if: always()
               uses: actions/upload-artifact@v4
               with:
                 name: iam-policy-report
-                path: validation-logs.txt
+                path: terraform-infra/validation-logs.txt
                 retention-days: 1
 
   
