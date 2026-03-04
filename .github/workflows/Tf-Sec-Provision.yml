@@ -1,0 +1,42 @@
+name: Tf-Sec-Provision
+
+on:
+    workflow_run:
+        workflows:
+            - "Build-Push"
+        branches:
+            - main
+        types:
+            - completed
+    workflow_dispatch:
+permissions:
+    id-token: write
+    contents: read
+
+jobs:
+    Security-Scan:
+        if: github.event.workflow_run.conclusion == 'success'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@5
+
+            - name: Run tfsec
+              uses: aquasecurity/tfsec-action@v1.0.3
+              with:
+                soft_fail: false
+
+            - name: Configure AWS Creds
+              uses: aws-actions/configure-aws-credentials@v6
+              with:
+                role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+                aws-region: ${{ vars.AWS_REGION }}
+                role-session-name: GitHubActions-Security-Scan
+
+            - name: Validare IAM Policies
+              uses: aws-actions/terraform-aws-iam-policy-validator@v1.0.3
+              with:
+                policy-check-scope: 'SECURITY_CHECK'
+                template-path: 'terraform-infra/iam.tf'
+
+  
