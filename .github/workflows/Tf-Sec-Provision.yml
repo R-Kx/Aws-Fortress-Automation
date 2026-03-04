@@ -15,7 +15,6 @@ permissions:
 
 jobs:
     Security-Scan:
-        if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
@@ -35,7 +34,7 @@ jobs:
 
             - name: Validare IAM Policies
               id: iam-validator
-              uses: aws-actions/terraform-aws-iam-policy-validator@v1.0.3
+              uses: aws-actions/terraform-aws-iam-policy-validator@v1.0.0
               with:
                 policy-check-type: 'VALIDATE_POLICY'
                 template-path: 'terraform-infra/iam.tf'
@@ -47,7 +46,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: iam-policy-report
-                path: terraform-infra/validation-logs.txt
+                path: "**/validation-logs.txt"
                 retention-days: 1
 
   
