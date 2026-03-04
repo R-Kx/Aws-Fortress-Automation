@@ -32,21 +32,24 @@ jobs:
                 aws-region: ${{ vars.AWS_REGION }}
                 role-session-name: GitHubActions-Security-Scan
 
-            - name: Validare IAM Policies
+            - name: Prepare report Dir
+              run: mkdir -p terraform/reports
+
+            - name: Validate IAM Policies
               id: iam-validator
               uses: aws-actions/terraform-aws-iam-policy-validator@v1.0.0
               with:
                 policy-check-type: 'VALIDATE_POLICY'
                 template-path: 'terraform-infra/iam.tf'
                 region: ${{ vars.AWS_REGION }}
-                args: --output-file terraform-infra/validation-logs.txt
+                args: --output-file terraform/reports/validation-logs.txt
             
             - name: Upload Policy validation report
               if: always()
               uses: actions/upload-artifact@v4
               with:
                 name: iam-policy-report
-                path: "**/validation-logs.txt"
+                path: terraform/reports/validation-logs.txt"
                 retention-days: 1
 
   
