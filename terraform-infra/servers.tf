@@ -37,9 +37,7 @@ resource "aws_launch_template" "flask_api_lt" {
 
     user_data = base64encode(<<-EOF
 #!/bin/bash
-apt-get update
-apt-get install -y python3-pip
-echo "Server is ready for Ansible"
+echo "Waiting for Ansible To Take Over..."
 EOF
 )
 

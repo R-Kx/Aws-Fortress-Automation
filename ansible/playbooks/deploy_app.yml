@@ -1,0 +1,16 @@
+- name: Deploy App using Docker Compose
+  hosts: all
+  become: true
+  vars_files:
+    - "../group_vars/all/vars.yml"
+    - "../group_vars/all/vault.yml"
+  tasks:
+    - name: ECR Login
+      shell: "aws ecr get-login-password --region {{ region }} | docker login --username AWS --password-stdin {{ ecr_registry }}"
+
+    - name: Pull And start container
+      shell: |
+        docker compose -f /opt/flask-app/docker-compose.yml pull
+        docker compose -f /opt/flask-app/docker-compose.yml up -d --remove-orphans
+      args:
+        chdir: /opt/flask-app

@@ -1,0 +1,2 @@
+- import_playbook: playbooks/setup_os.yml
+- import_playbook: playbooks/deploy_app.yml
