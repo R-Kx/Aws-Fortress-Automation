@@ -9,7 +9,7 @@ def get_db_connection():
             host=os.getenv("DB_HOST", "db"),
             database=os.getenv("DB_NAME", "flask_db"),
             user=os.getenv("DB_USER", "postgres"),
-            password=os.getenv("DB_PASSWORD" ),
+            password=os.getenv("DB_PASSWORD"),
             connect_timeout=5,
         )
         return conn
