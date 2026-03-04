@@ -36,7 +36,8 @@ jobs:
             - name: Validare IAM Policies
               uses: aws-actions/terraform-aws-iam-policy-validator@v1.0.3
               with:
-                policy-check-scope: 'SECURITY_CHECK'
+                policy-check-type: 'FAIL_ON_ANY_FINDING'
                 template-path: 'terraform-infra/iam.tf'
+                region: ${{ vars.AWS_REGION }}
 
   
