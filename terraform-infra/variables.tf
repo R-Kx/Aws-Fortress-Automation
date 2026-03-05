@@ -2,7 +2,9 @@ variable "instance_type" {}
 
 variable "key_name" {}
 
-variable "pub_key_path" {}
+variable "pub_key_path" {
+	sensitive =  true
+}
 
 variable "azs" {}
 

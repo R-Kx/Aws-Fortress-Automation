@@ -173,10 +173,17 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "sns:ListTagsForResource",
                     "logs:ListTagsForResource",
                     "logs:DescribeLogGroups",
+                    "ecr:GetLifecyclePolicy",
                     "ecr:DescribeRepositories",
                     "ecr:ListTagsForResource",
                     "iam:GetRole",
-                    "iam:ListRolePolicies", 
+                    "iam:ListRolePolicies",
+                    "iam:GetRolePolicy",
+                    "iam:GetOPenIDConnectProvider",
+                    "s3:ListBucket",
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:DeleteObject",
                     "s3:GetBucketOwnershipControls",
                     "s3:GetBucketVersioning",
                     "s3:GetPublicAccessBlock",
@@ -187,7 +194,8 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "ec2:DescribeImages",
                     "ec2:DescribeKeyPairs",
                     "ec2:DescribeAvailabilityZones",
-                    "ec2:DescribeVpcs"
+                    "ec2:DescribeVpcs",
+                    "ec2:DescribeVpcAttribute"
                 ]
                 Resource = "*"
             }
