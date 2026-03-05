@@ -31,6 +31,14 @@ jobs:
                 role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
                 aws-region: ${{ vars.AWS_REGION }}
                 role-session-name: GitHubActions-Security-Scan
+            
+            - name: Prepare And Launch TF
+              run: |
+                terraform init &&
+                terraform plan -out=tfplan &&
+                terraform show -json tfplan > tfplan.json
+              working-directory: terraform-infra
+
 
             - name: Prepare report Dir
               run: mkdir -p terraform/reports
@@ -40,16 +48,9 @@ jobs:
               uses: aws-actions/terraform-aws-iam-policy-validator@v1.0.0
               with:
                 policy-check-type: 'VALIDATE_POLICY'
-                template-path: 'terraform-infra/iam.tf'
+                template-path: 'terraform-infra/tfplan.json'
                 region: ${{ vars.AWS_REGION }}
                 args: --output-file terraform/reports/validation-logs.txt
-
-            - name: Debug report existence
-              if: always()
-              run: |
-                echo "=== Listing terraform/reports ==="
-                ls -lah terraform/reports || true
-                echo "================================"
             
             - name: Upload Policy validation report
               if: always()
