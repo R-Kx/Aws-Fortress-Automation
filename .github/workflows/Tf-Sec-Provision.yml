@@ -41,7 +41,9 @@ jobs:
               run: |
                 echo 'SLACK_WEBHOOK_URL = "${{ secrets.SLACK_WEBHOOK_URL }}"' > terraform-infra/temp.tfvars &&
                 echo 'ansible_vault_pass = "${{ secrets.ANSIBLE_VAULT_PASS_ARN }}"' >> terraform-infra/temp.tfvars &&
-                echo 'azs = "${{ vars.AZS }}"' >> terraform-infra/temp.tfvars
+                echo 'azs = "${{ vars.AZS }}"' >> terraform-infra/temp.tfvars &&
+                echo 'db_username = "${{ secrets.DB_USERNAME }}"' >> terraform-infra/temp.tfvars &&
+                echo 'rds_password = "${{ secrets.DB_PASS }}"' >> terraform-infra/temp.tfvars
             
             - name: Prepare And Launch Tf
               run: |
