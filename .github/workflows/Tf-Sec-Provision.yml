@@ -35,9 +35,9 @@ jobs:
               with:
                 role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
                 aws-region: ${{ vars.AWS_REGION }}
-                role-session-name: GitHubActions-Security-Scan
-
-            - name: Create Temporary tfvar
+                role-session-name: GitHubActions-Security-Scan      
+            
+            - name: Create temp .tfvars
               run: |
                 echo 'SLACK_WEBHOOK_URL = "'"${{ secrets.SLACK_WEBHOOK_URL }}"'"' > terraform-infra/temp.tfvars
                 echo 'ansible_vault_pass = "'"${{ secrets.ANSIBLE_VAULT_PASS_ARN }}"'"' >> terraform-infra/temp.tfvars
