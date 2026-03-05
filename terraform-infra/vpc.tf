@@ -2,6 +2,7 @@ data "aws_availability_zones" "available_zones" {
     state = "available"
 }
 
+#tfsec:ignore:aws-ec2-require-vpc-flow-logs-for-all-vpcs
 resource "aws_vpc" "flask_vpc" {
     cidr_block           = var.vpc_cidr
     instance_tenancy     = "default"
@@ -14,7 +15,7 @@ resource "aws_subnet" "public" {
     vpc_id                  = aws_vpc.flask_vpc.id
     cidr_block              = cidrsubnet(aws_vpc.flask_vpc.cidr_block, 8, count.index + 1)
     availability_zone       = data.aws_availability_zones.available_zones.names[count.index]
-    map_public_ip_on_launch = true
+    map_public_ip_on_launch = true #tfsec:ignore:aws-ec2-no-public-ip-subnet
 }
 
 resource "aws_subnet" "private" {

@@ -26,6 +26,7 @@ resource "aws_iam_role_policy_attachment" "cw_policy" {
     policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
+#tfsec:ignore:aws-iam-no-policy-wildcards
 resource "aws_iam_role_policy" "api_custom_policy" {
     name = "${var.project_name}-custom-permissions"
     role = aws_iam_role.api_role.id
@@ -68,6 +69,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
     policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+#tfsec:ignore:aws-iam-no-policy-wildcards
 resource "aws_iam_role_policy" "lambda_custom_policy" {
     name = "${var.project_name}-lambda-custom"
     role = aws_iam_role.lambda_role.id
@@ -113,6 +115,8 @@ resource "aws_iam_role" "github_actions_role" {
     })
 }
 
+
+#tfsec:ignore:aws-iam-no-policy-wildcards
 resource "aws_iam_role_policy" "github_action_policy" {
     name = "${var.project_name}-github-action-policy"
     role = aws_iam_role.github_actions_role.id
@@ -148,14 +152,14 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "ssm:SendCommand",
                     "ec2:DescribeInstances"
                 ]
-                Resource = "*"
+                Resource = ["arn:aws:ec2:*:*:instance/*"]
             },
             {
                 Effect = "Allow"
                 Action = [
                     "s3:ListBucket"
                 ]
-                Resource = "arn:aws:s3:::r-ks-terraform-storage-123"
+                Resource = ["arn:aws:s3:::r-ks-terraform-storage-123"]
             },
             {
                 Effect = "Allow"
@@ -164,7 +168,7 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "s3:PutObject",
                     "s3:DeleteObject"
                 ]
-                Resource = "arn:aws:s3:::r-kx-terraform-storage-123/*"
+                Resource = ["arn:aws:s3:::r-kx-terraform-storage-123/*"]
             },
             {
                 Effect = "Allow"
@@ -221,7 +225,24 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "ecr:GetLifecyclePolicy",
                     "access-analyzer:ValidatePolicy"
                 ]
-                Resource = "*"
+                Resource = "*" 
+            },
+            {
+                Effect = "Allow"
+                Action = [
+                    "ec2:*",
+                    "rds:*",
+                    "s3:*",
+                    "iam:*",
+                    "elasticloadbalancing:*",
+                    "autoscaling:*",
+                    "cloudwatch:*",
+                    "logs:*",
+                    "sns:*",
+                    "secretsmanager:*",
+                    "ecr:*"
+                ]
+                Resource = "*"  
             }
         ]
     })

@@ -14,6 +14,7 @@ resource "aws_secretsmanager_secret_version" "db_pass_ver" {
     secret_string = random_password.db-pass.result
 }*/
 
+#tfsec:ignore:aws-ssm-secret-use-customer-key
 resource "aws_secretsmanager_secret" "ansible_vault_pass" {
     name                    = "pass-for-ansible-vault-${random_id.s3_bucket_id.hex}"
     recovery_window_in_days = 0

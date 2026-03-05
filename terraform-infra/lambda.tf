@@ -17,6 +17,10 @@ resource "aws_lambda_function" "slack_notifier" {
         SLACK_WEBHOOK_URL = var.SLACK_WEBHOOK_URL
       }
     }
+
+    tracing_config {
+      mode = "Active"
+    }
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch" {

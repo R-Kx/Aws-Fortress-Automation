@@ -29,6 +29,12 @@ resource "aws_launch_template" "flask_api_lt" {
     instance_type = var.instance_type
     key_name      = aws_key_pair.aws_auth.key_name
 
+    metadata_options {
+      http_endpoint               = "enabled"
+      http_tokens                 = "required"
+      http_put_response_hop_limit = 1
+    }
+
     iam_instance_profile {
       name = aws_iam_instance_profile.api_instance_profile.id
     }

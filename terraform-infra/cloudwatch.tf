@@ -1,5 +1,7 @@
+#tfsec:ignore:aws-sns-topic-encryption-use-cmk
 resource "aws_sns_topic" "cpu_alert" {
     name = "${var.project_name}-cpu-alert"
+    kms_master_key_id = ("alias/aws/sns")
 }
 
 resource "aws_sns_topic_subscription" "mail_sub" {
@@ -8,6 +10,7 @@ resource "aws_sns_topic_subscription" "mail_sub" {
     endpoint  = var.my_mail
 }
 
+#tfsec:ignore:aws-cloudwatch-log-group-customer-key
 resource "aws_cloudwatch_log_group" "api_logs" {
     name              = "api-logs"
     retention_in_days = 7

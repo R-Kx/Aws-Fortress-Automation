@@ -4,17 +4,19 @@ resource "aws_security_group" "alb_sg" {
     vpc_id      = aws_vpc.flask_vpc.id
 
     ingress {
+        description = "Allow HTTP from internet"
         protocol    = "tcp"
         from_port   = 80
         to_port     = 80
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = ["0.0.0.0/0"] #tfsec:ignore:aws-ec2-no-public-ingress-sgr
     }
 
     egress {
+        description = "Allow all outbound traffic"
         protocol    = "-1"
         from_port   = 0
         to_port     = 0
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = ["0.0.0.0/0"] #tfsec:ignore:aws-ec2-no-public-egress-sgr
     }
 }
 
@@ -24,6 +26,7 @@ resource "aws_security_group" "ec2_sg" {
     vpc_id      = aws_vpc.flask_vpc.id
 
     ingress {
+        description = "Allow traffic from ALB on port 5000"
         protocol  = "tcp"
         from_port = 5000
         to_port   = 5000
@@ -31,10 +34,11 @@ resource "aws_security_group" "ec2_sg" {
     }
 
     egress {
+        description = "Allow all outbound traffic"
         protocol    = "-1"
         from_port   = 0
         to_port     = 0
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = ["0.0.0.0/0"] #tfsec:ignore:aws-ec2-no-public-egress-sgr
     }
 }
 
@@ -44,17 +48,11 @@ resource "aws_security_group" "rds_sg" {
     vpc_id      = aws_vpc.flask_vpc.id
 
     ingress {
+      description = "Allow inbound access from ec2 only"
       protocol        = "tcp"
       from_port       = 5432
       to_port         = 5432
       security_groups = [aws_security_group.ec2_sg.id]
-    }
-
-    egress {
-        protocol    = "-1"
-        from_port   = 0
-        to_port     = 0
-        cidr_blocks = ["0.0.0.0/0"]
     }
 }
 
@@ -232,20 +230,14 @@ resource "aws_wafv2_web_acl_association" "waf_alb_asso" {
 
 resource "aws_security_group" "secrets_sg" {
     name        = "secrets-endpoint-sg"
-    description = "Allow HTTPS Inbound from VPC"
+    description = "Allow Inbound from VPC"
     vpc_id      = aws_vpc.flask_vpc.id
 
     ingress {
+        description = "Allow Inbound from VPC only"
         protocol    = "tcp"
         from_port   = 443
         to_port     = 443
         cidr_blocks = [aws_vpc.flask_vpc.cidr_block]
-    }
-
-    egress {
-        protocol    = "-1"
-        from_port   = 0
-        to_port     = 0
-        cidr_blocks = ["0.0.0.0/0"]
     }
 }

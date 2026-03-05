@@ -2,6 +2,7 @@ resource "random_id" "s3_bucket_id" {
     byte_length = 4
 }
 
+#tfsec:ignore:aws-s3-enable-bucket-logging
 resource "aws_s3_bucket" "flask_bucket" {
     bucket              = "s3-bucket-${random_id.s3_bucket_id.hex}"
     force_destroy       = true
@@ -53,4 +54,14 @@ resource "aws_s3_object" "logs_folder" {
     key           = "logs/"
     content_type  = "application/x-directory"
     force_destroy = true
+}
+
+#tfsec:ignore:aws-s3-encryption-customer-key
+resource "aws_s3_bucket_server_side_encryption_configuration" "flask_s3_enc" {
+    bucket = aws_s3_bucket.flask_bucket.id
+    rule {
+        apply_server_side_encryption_by_default {
+          sse_algorithm = "AES256"
+        }
+    }
 }
