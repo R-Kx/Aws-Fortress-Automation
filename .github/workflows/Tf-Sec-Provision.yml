@@ -60,6 +60,7 @@ jobs:
 
             - name: Prepare And Launch Tf
               run: |
+                rm -rf .terraform
                 terraform init -reconfigure &&
                 terraform plan -var-file=temp.tfvars -out=tfplan &&
                 terraform show -json tfplan > tfplan.json
