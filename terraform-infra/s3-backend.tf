@@ -1,6 +1,6 @@
 terraform {
     backend "s3" {
-        profile  = "default"
+        #profile  = "default"
         bucket   = "r-kx-terraform-storage-123"
         key      = "dev.terraform.tfstate"
         encrypt  = true
