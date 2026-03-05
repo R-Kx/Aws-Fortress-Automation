@@ -39,21 +39,22 @@ jobs:
 
             - name: Create Temporary tfvar
               run: |
-                echo "SLACK_WEBHOOK_URL = \"${{ secrets.SLACK_WEBHOOK_URL }}\"" > terraform-infra/temp.tfvars
-                echo "ansible_vault_pass = \"${{ secrets.ANSIBLE_VAULT_PASS_ARN }}\"" >> terraform-infra/temp.tfvars
-                echo "azs = \"${{ vars.AZS }}\"" >> terraform-infra/temp.tfvars
-                echo "db_username = \"${{ secrets.DB_USERNAME }}\"" >> terraform-infra/temp.tfvars
-                echo "rds_password = \"${{ secrets.DB_PASS }}\"" >> terraform-infra/temp.tfvars
-                echo "default_region = \"${{ vars.AWS_REGION }}\"" >> terraform-infra/temp.tfvars
-                echo "enable_waf = \"false\"" >> terraform-infra/temp.tfvars
-                echo "environment = \"DEV\"" >> terraform-infra/temp.tfvars
-                echo "project_name = \"flask-project\"" >> terraform-infra/temp.tfvars
-                echo "python_version = \"3.9\"" >> terraform-infra/temp.tfvars
-                echo "instance_type = \"t3.micro\"" >> terraform-infra/temp.tfvars
-                echo 'key_name = "${{ vars.KEY_NAME }}"" >> terraform-infra/temp.tfvars
-                echo "pub_key_path = "${{ secrets.PUB_KEY_PATH }}"" >> terraform-infra/temp.tfvars
-                echo "my_mail = \"shuamglebshi@gmail.com\"" >> terraform-infra/temp.tfvars
-                echo "vpc_cidr = "${{ secrets.VPC_CIDR }}"" >> terraform-infra/temp.tfvars
+                echo 'SLACK_WEBHOOK_URL = "'"${{ secrets.SLACK_WEBHOOK_URL }}"'"' > terraform-infra/temp.tfvars
+                echo 'ansible_vault_pass = "'"${{ secrets.ANSIBLE_VAULT_PASS_ARN }}"'"' >> terraform-infra/temp.tfvars
+                echo 'azs = "'"${{ vars.AZS }}"'"' >> terraform-infra/temp.tfvars
+                echo 'db_username = "'"${{ secrets.DB_USERNAME }}"'"' >> terraform-infra/temp.tfvars
+                echo 'rds_password = "'"${{ secrets.DB_PASS }}"'"' >> terraform-infra/temp.tfvars
+                echo 'default_region = "'"${{ vars.AWS_REGION }}"'"' >> terraform-infra/temp.tfvars
+                echo 'enable_waf = "false"' >> terraform-infra/temp.tfvars
+                echo 'environment = "DEV"' >> terraform-infra/temp.tfvars
+                echo 'project_name = "flask-project"' >> terraform-infra/temp.tfvars
+                echo 'python_version = "3.9"' >> terraform-infra/temp.tfvars
+                echo 'instance_type = "t3.micro"' >> terraform-infra/temp.tfvars
+                echo 'key_name = "'"${{ vars.KEY_NAME }}"'"' >> terraform-infra/temp.tfvars
+                echo 'pub_key_path = "'"${{ secrets.PUB_KEY_PATH }}"'"' >> terraform-infra/temp.tfvars
+                echo 'my_mail = "shuamglebshi@gmail.com"' >> terraform-infra/temp.tfvars
+                echo 'vpc_cidr = "'"${{ secrets.VPC_CIDR }}"'"' >> terraform-infra/temp.tfvars
+
 
             
             - name: Prepare And Launch Tf
