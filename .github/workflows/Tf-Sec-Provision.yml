@@ -36,10 +36,12 @@ jobs:
                 role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
                 aws-region: ${{ vars.AWS_REGION }}
                 role-session-name: GitHubActions-Security-Scan
+
+            - name: Create Temporary tfvar
+              run: |
+                echo 'var.SLACK_WEBHOOK_URL = "${{ secrets.SLACK_WEBHOOK_URL }}"' > terraform-infra/temp.tfvars
             
-            - name: Prepare And Launch TF
-              env:
-                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+            - name: Prepare And Launch Tf
               run: |
                 terraform init -reconfigure &&
                 terraform plan -out=tfplan &&
