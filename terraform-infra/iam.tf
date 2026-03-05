@@ -208,7 +208,14 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "logs:List*",
                     "secretsmanager:DescribeSecret",
                     "secretsmanager:GetResourcePolicy",
-                    "tag:GetResources"
+                    "tag:GetResources",
+                    "ecr:Describe*",
+                    "ecr:List*",
+                    "lambda:Get*",
+                    "lambda:List*",
+                    "rds:Describe*",
+                    "rds:List*",
+                    "autoscaling:Describe*"
                 ]
                 Resource = "*"
             }
