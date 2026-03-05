@@ -165,6 +165,21 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "s3:DeleteObject"
                 ]
                 Resource = "arn:aws:s3:::r-kx-terraform-storage-123/*"
+            },
+            {
+                Effect = "Allow"
+                Action = [
+                    "sns:GetTopicAttributes",
+                    "logs:DescribeLogGroups",
+                    "ecr:DescribeRepositories",
+                    "iam:GetRole",
+                    "s3:GetBucketOwnershipControls",
+                    "s3:GetBucketVersioning",
+                    "s3:GetPublicAccessBlock",
+                    "secretsmanager:DescribeSecret",
+                    "ec2:Describe"
+                ]
+                Resource = "*"
             }
         ]
     })
