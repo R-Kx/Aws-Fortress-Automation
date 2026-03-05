@@ -57,12 +57,14 @@ jobs:
 
 
             
+
             - name: Prepare And Launch Tf
               run: |
                 terraform init -reconfigure &&
                 terraform plan -var-file=temp.tfvars -out=tfplan &&
                 terraform show -json tfplan > tfplan.json
               working-directory: terraform-infra
+
 
             - name: Remove temp .tfvars
               run: |
