@@ -51,7 +51,7 @@ jobs:
                 echo 'python_version = "3.9"' >> terraform-infra/temp.tfvars
                 echo 'instance_type = "t3.micro"' >> terraform-infra/temp.tfvars
                 echo 'key_name = "'"${{ vars.KEY_NAME }}"'"' >> terraform-infra/temp.tfvars
-                echo 'pub_key_path = "'"$(echo "${{ secrets.PUB_KEY_PATH }}" | tr -d '\n)'"'"' >> terraform-infra/temp.tfvars
+                echo 'pub_key_path = "'"$(echo "${{ secrets.PUB_KEY_PATH }}" | tr -d '\n')'"'"' >> terraform-infra/temp.tfvars
                 echo 'my_mail = "shuamglebshi@gmail.com"' >> terraform-infra/temp.tfvars
                 echo 'vpc_cidr = "'"${{ secrets.VPC_CIDR }}"'"' >> terraform-infra/temp.tfvars
 
