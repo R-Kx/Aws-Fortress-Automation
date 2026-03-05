@@ -218,7 +218,8 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "autoscaling:Describe*",
                     "cloudwatch:Describe*",
                     "cloudwatch:ListTagsForResource",
-                    "ecr:GetLifecyclePolicy"
+                    "ecr:GetLifecyclePolicy",
+                    "access-analyzer:ValidatePolicy"
                 ]
                 Resource = "*"
             }
