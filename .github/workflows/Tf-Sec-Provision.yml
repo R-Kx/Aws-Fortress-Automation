@@ -38,8 +38,10 @@ jobs:
                 role-session-name: GitHubActions-Security-Scan
             
             - name: Prepare And Launch TF
+              env:
+                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
               run: |
-                terraform init &&
+                terraform init -reconfigure &&
                 terraform plan -out=tfplan &&
                 terraform show -json tfplan > tfplan.json
               working-directory: terraform-infra
