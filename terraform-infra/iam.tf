@@ -149,6 +149,22 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "ec2:DescribeInstances"
                 ]
                 Resource = "*"
+            },
+            {
+                Effect = "Allow"
+                Action = [
+                    "s3:ListBucket"
+                ]
+                Resource = "arn:aws:s3:::r-ks-terraform-storage-123"
+            },
+            {
+                Effect = "Allow"
+                Action = [
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:DeleteObject"
+                ]
+                Resource = "arn:aws:s3:::r-kx-terraform-storage-123/*"
             }
         ]
     })
