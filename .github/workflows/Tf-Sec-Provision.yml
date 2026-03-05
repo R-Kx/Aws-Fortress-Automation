@@ -45,7 +45,11 @@ jobs:
                 echo 'db_username = "${{ secrets.DB_USERNAME }}"' >> terraform-infra/temp.tfvars &&
                 echo 'rds_password = "${{ secrets.DB_PASS }}"' >> terraform-infra/temp.tfvars &&
                 echo 'default_region = "${{ vars.AWS_REGION }}"' >> terraform-infra/temp.tfvars &&
-                echo 'enable_waf = "false"' >> terraform-infra/temp.tfvars
+                echo 'enable_waf = "false"' >> terraform-infra/temp.tfvars &&
+                echo 'environment = "DEV"' >> terraform-infra/temp.tfvars &&
+                echo 'project_name = "flask-project"' terraform-infra/temp.tfvars &&
+                echo 'python_version = "3.9"' terraform-infra/temp.tfvars &&
+                echo 'instance_type = "t3.micro"' terraform-infra/temp.tfvars
             
             - name: Prepare And Launch Tf
               run: |
