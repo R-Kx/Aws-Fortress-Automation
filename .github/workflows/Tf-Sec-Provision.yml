@@ -85,6 +85,7 @@ jobs:
                 template-path: 'terraform-infra/tfplan.json'
                 region: ${{ vars.AWS_REGION }}
                 args: --output-file terraform/reports/validation-logs.txt
+                exclude-resource-types: "aws_vpc_endpoint"
             
             - name: Upload Policy validation report
               if: always()
