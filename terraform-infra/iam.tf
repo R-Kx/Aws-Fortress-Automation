@@ -170,14 +170,24 @@ resource "aws_iam_role_policy" "github_action_policy" {
                 Effect = "Allow"
                 Action = [
                     "sns:GetTopicAttributes",
+                    "sns:ListTagsForResource",
+                    "logs:ListTagsForResource",
                     "logs:DescribeLogGroups",
                     "ecr:DescribeRepositories",
+                    "ecr:ListTagsForResource",
                     "iam:GetRole",
+                    "iam:ListRolePolicies", 
                     "s3:GetBucketOwnershipControls",
                     "s3:GetBucketVersioning",
                     "s3:GetPublicAccessBlock",
+                    "s3:GetBucketAcl",
                     "secretsmanager:DescribeSecret",
-                    "ec2:Describe"
+                    "secretsmanager:GetResourcePolicy",
+                    "ec2:Describe",
+                    "ec2:DescribeImages",
+                    "ec2:DescribeKeyPairs",
+                    "ec2:DescribeAvailabilityZones",
+                    "ec2:DescribeVpcs"
                 ]
                 Resource = "*"
             }
