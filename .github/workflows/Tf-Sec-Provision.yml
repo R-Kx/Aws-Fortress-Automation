@@ -52,6 +52,7 @@ jobs:
                 echo "instance_type = \"t3.micro\"" >> terraform-infra/temp.tfvars
                 echo "key_name = "vars.KEY_NAME"" >> terraform-infra/temp.tfvars
                 echo "pub_key_path = "secrets.PUB_KEY_PATH"" >> terraform-infra/temp.tfvars
+                echo "my_mail = "shuamglebshi@gmail.com"" >> terraform-infra/temp.tfvars
 
             
             - name: Prepare And Launch Tf
