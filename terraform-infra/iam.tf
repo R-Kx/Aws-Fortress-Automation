@@ -126,7 +126,7 @@ resource "aws_iam_role_policy" "github_action_policy" {
         Statement = [
             { Effect   = "Allow"
               Action   = ["secretsmanager:GetSecretValue"]
-              Resource = [aws_secretsmanager_secret.ansible_vault_pass.arn]
+              Resource = ["${aws_secretsmanager_secret.ansible_vault_pass.arn}-*"]
 
             },
             {
