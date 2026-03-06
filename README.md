@@ -177,6 +177,6 @@ graph LR
     Agent -->|Execute Commands| Docker
     
     style DynInv fill:#fff4dd,stroke:#d4a017,stroke-width:2px
-```
+
     style FW fill:#fdd,stroke:#f66,stroke-width:2px
 ```
