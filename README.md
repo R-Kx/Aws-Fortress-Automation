@@ -21,6 +21,7 @@ This repository contains the complete Infrastructure as Code (IaC) and Configura
 * **Automated Incident Response:** Integration of CloudWatch Logs with AWS Lambda. Any `ERROR` found in the application logs automatically triggers a Lambda function to send alerts to a Slack channel. CloudWatch Alarms trigger SNS notifications for high CPU utilization.
 * **Continuous Compliance & Security Scanning:** Infrastructure code is heavily validated using `tfsec`, ensuring compliance before any infrastructure is provisioned. 
 * **Cost Optimization:** AWS ECR lifecycle policies are configured to keep only the last 5 Docker images.
+  
 
 ## 🛠️ Technology Stack
 
