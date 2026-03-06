@@ -1,0 +1,67 @@
+name: Tf-Apply
+
+on:
+    workflow_run:
+        workflows:
+            - "Tf-Sec-Provision"
+        branches:
+            - main
+        types:
+            - completed
+    workflow_dispatch:
+    
+jobs:
+    Terraform-Apply:
+        if: github.event.workflow_run.conclusion == 'success'
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+            contents: read
+        defaults:
+            run:
+                working-directory: terraform-infra
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v5
+
+            - name: Setup terraform
+              uses: hashicorp/setup-terraform@v3
+              with:
+                terraform-version: "1.14.4"
+
+            - name: Configure AWS Creds
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+                aws-region: ${{ vars.AWS_REGION }}
+                role-session-name: GitHubActions-Terraform-Deploy
+
+            - name: Create Temporary .tfvars
+              run: |
+                echo 'SLACK_WEBHOOK_URL = "'"${{ secrets.SLACK_WEBHOOK_URL }}"'"' > temp.tfvars
+                echo 'ansible_vault_pass = "'"${{ secrets.ANSIBLE_VAULT_PASS_ARN }}"'"' >> temp.tfvars
+                echo 'azs = "'"${{ vars.AZS }}"'"' >> temp.tfvars
+                echo 'db_username = "'"${{ secrets.DB_USERNAME }}"'"' >> temp.tfvars
+                echo 'rds_password = "'"${{ secrets.DB_PASS }}"'"' >> temp.tfvars
+                echo 'default_region = "'"${{ vars.AWS_REGION }}"'"' >> temp.tfvars
+                echo 'enable_waf = "false"' >> temp.tfvars
+                echo 'environment = "DEV"' >> temp.tfvars
+                echo 'project_name = "flask-project"' >> temp.tfvars
+                echo 'python_version = "python3.9"' >> temp.tfvars
+                echo 'instance_type = "t3.micro"' >> temp.tfvars
+                echo 'key_name = "'"${{ vars.KEY_NAME }}"'"' >> temp.tfvars
+                echo 'pub_key_path = "'"$(echo "${{ secrets.PUB_KEY_PATH }}" | tr -d '\n')'"'"' >> temp.tfvars
+                echo 'my_mail = "shuamglebshi@gmail.com"' >> temp.tfvars
+                echo 'vpc_cidr = "'"${{ secrets.VPC_CIDR }}"'"' >> temp.tfvars
+
+            - name: Deploy via Terraform
+              run: |
+                rm -rf .terraform
+                terraform init -reconfigure &&
+                terraform apply -var-file=temp.tfvars --auto-approve
+
+            - name: Remove Temporary .tfvars
+              if: always()
+              run: |
+                rm -rf temp.tfvars
+        
