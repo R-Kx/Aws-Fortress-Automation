@@ -2,8 +2,7 @@ name: Tf-Apply
 
 on:
     workflow_run:
-        workflows:
-            - "Tf-Sec-Provision"
+        workflows: ["Tf-Sec-Provision"]
         branches:
             - main
         types:
@@ -27,7 +26,7 @@ jobs:
             - name: Setup terraform
               uses: hashicorp/setup-terraform@v3
               with:
-                terraform-version: "1.14.4"
+                terraform_version: "1.14.4"
 
             - name: Configure AWS Creds
               uses: aws-actions/configure-aws-credentials@v4
