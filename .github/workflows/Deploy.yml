@@ -50,8 +50,8 @@ jobs:
               run: |
                 set +x
                 cd ansible
-                VAULT_PASS=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.VAULT_SECRET_ARN }} --query SecretString --output text)
-                echo "::add-mask::$VAULT_PASS"
-                echo "$VAULT_PASS" > .vault_pass
+                VAULT_PASS=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.VAULT_SECRET_ARN }} --query SecretString --output text | tf -d '\n' | tr -d '\r' | xargs)
+                printf "%s" $VAULT_PASS" > .vault_pass
+                chmod 600 .vault_pass
                 ansible-playbook sites.yml --vault-password-file .vault_pass
                 rm .vault_pass
