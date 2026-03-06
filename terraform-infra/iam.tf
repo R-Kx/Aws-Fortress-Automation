@@ -173,33 +173,6 @@ resource "aws_iam_role_policy" "github_action_policy" {
             {
                 Effect = "Allow"
                 Action = [
-                    #"sns:GetTopicAttributes",
-                    #"sns:ListTagsForResource",
-                    #"logs:ListTagsForResource",
-                    #"logs:DescribeLogGroups",
-                    #"ecr:GetLifecyclePolicy",
-                    #"ecr:DescribeRepositories",
-                    #"ecr:ListTagsForResource",
-                    #"iam:GetRole",
-                    #"iam:ListRolePolicies",
-                    #"iam:GetRolePolicy",
-                    #"iam:GetOpenIDConnectProvider",
-                    #"s3:ListBucket",
-                    #"s3:GetObject",
-                    #"s3:PutObject",
-                    #"s3:DeleteObject",
-                    #"s3:GetBucketOwnershipControls",
-                    #"s3:GetBucketVersioning",
-                    #"s3:GetPublicAccessBlock",
-                    #"s3:GetBucketAcl",
-                    #"secretsmanager:DescribeSecret",
-                    #"secretsmanager:GetResourcePolicy",
-                    #"ec2:Describe",
-                    #"ec2:DescribeImages",
-                    #"ec2:DescribeKeyPairs",
-                    #"ec2:DescribeAvailabilityZones",
-                    #"ec2:DescribeVpcs",
-                    #"ec2:DescribeVpcAttribute"
                     "ec2:Describe*",
                     "iam:Get*",
                     "iam:List*",
@@ -233,7 +206,6 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "ec2:*",
                     "rds:*",
                     "s3:*",
-                    "iam:*",
                     "elasticloadbalancing:*",
                     "autoscaling:*",
                     "cloudwatch:*",
@@ -243,6 +215,25 @@ resource "aws_iam_role_policy" "github_action_policy" {
                     "ecr:*"
                 ]
                 Resource = "*"  
+            },
+            {
+                Effect    = "Allow"
+                NotAction = ["iam:PassRole"]
+                Resource  = "*"
+            },
+            {
+                Effect    = "Allow"
+                Action    = ["iam:PassRole"]
+                Resource  = "*"
+                Condition = {
+                    StringEquals: {
+                        "iam:PassedToService" = [
+                            "ec2.amazonaws.com",
+                            "lambda.amazonaws.com",
+                            "rds.amazonaws.com"
+                        ]
+                    }
+                }
             }
         ]
     })
