@@ -76,7 +76,8 @@ graph TD
     Flask -.-> Secrets_EP
     NAT -.-> IGW
     IGW --> User
-
+```
+```mermaid
 graph LR
     subgraph Development [Local Dev]
         Code[Git Push]
@@ -115,7 +116,8 @@ graph LR
     style TfSec fill:#f96,stroke:#333,stroke-width:2px
     style IAM_Val fill:#f96,stroke:#333,stroke-width:2px
     style Ansible fill:#69f,stroke:#333,stroke-width:2px
-
+```
+```mermaid
 graph LR
     subgraph GitHub_Runner [GitHub Actions Runner]
         Ansible[Ansible Playbook]
@@ -147,5 +149,6 @@ graph LR
     Agent -->|Execute Commands| Docker
     
     style DynInv fill:#fff4dd,stroke:#d4a017,stroke-width:2px
+```
     style FW fill:#fdd,stroke:#f66,stroke-width:2px
 ```
