@@ -1,17 +1,11 @@
 name: Tf-Apply
 
 on:
-    workflow_run:
-        workflows: ["Tf-Sec-Provision"]
-        branches:
-            - main
-        types:
-            - completed
+    workflow_call:
     workflow_dispatch:
     
 jobs:
     Terraform-Apply:
-        if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
         runs-on: ubuntu-latest
         permissions:
             id-token: write

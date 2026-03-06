@@ -1,13 +1,7 @@
 name: Tf-Sec-Provision
 
 on:
-    workflow_run:
-        workflows:
-            - "Build-Push"
-        branches:
-            - main
-        types:
-            - completed
+    workflow_call:
     workflow_dispatch:
 permissions:
     id-token: write
@@ -15,7 +9,6 @@ permissions:
 
 jobs:
     Security-Scan:
-        if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code

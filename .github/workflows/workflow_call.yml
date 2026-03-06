@@ -1,0 +1,41 @@
+name: Full-Cycle-CI-CD-Pipeline
+
+on:
+    push:
+        branches:
+          - main
+    pull_request:
+        branches:
+          - main
+    workflow_dispatch:
+
+jobs:
+    Lint-Job:
+        uses: ./.github/workflows/Lint.yml
+        secrets: inherit
+
+    Unit-Test-Job:
+        needs: Lint-Job
+        uses: ./.github/workflows/Tests.yml
+        secrets: inherit
+
+    Build-Push-Job:
+        needs: Unit-Test-Job
+        uses: ./.github/workflows/Build-Push.yml
+        secrets: inherit
+
+    Tf-Sec-Provision-Job:
+        needs: Build-Push-Job
+        uses: ./.github/workflows/Tf-Sec-Provision.yml
+        secrets: inherit
+
+    Tf-Apply-Job:
+        needs: Tf-Sec-Provision-Job
+        uses: ./.github/workflows/Tf-Apply.yml
+        secrets: inherit
+
+    Deploy-Job:
+        needs: Tf-Apply-Job
+        uses: ./.github/workflows/Deploy.yml
+        secrets: inherit
+    
