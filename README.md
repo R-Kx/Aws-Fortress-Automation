@@ -175,8 +175,4 @@ graph LR
     SSM_Plugin -->|HTTPS:443| SSM_Service
     SSM_Service -->|Secure Tunnel| Agent
     Agent -->|Execute Commands| Docker
-    
-    style DynInv fill:#fff4dd,stroke:#d4a017,stroke-width:2px
-
-    style FW fill:#fdd,stroke:#f66,stroke-width:2px
 ```
