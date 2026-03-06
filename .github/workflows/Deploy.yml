@@ -7,6 +7,9 @@ on:
 jobs:
     Deploy:
         runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+            contents: read
         steps:
             - name: Checkout code
               uses: actions/checkout@v5
@@ -41,7 +44,12 @@ jobs:
                 set +x
                 cd ansible
                 VAULT_PASS=$(aws secretsmanager get-secret-value --secret-id "${{ secrets.VAULT_SECRET_ARN }}" --query SecretString --output text | tr -d '\n' | tr -d '\r' | xargs)
+                echo "Debug: Vault pass length is ${#VAULT_PASS} characters."
+                if [ -z "$VAULT_PASS" ]; then
+                   echo "ERROR: Vault password is empty! Check if secrets.VAULT_SECRET_ARN is passed to this workflow."
+                   exit 1
+                fi
                 printf "%s" "$VAULT_PASS" > .vault_pass
                 chmod 600 .vault_pass
-                ansible-playbook sites.yml --vault-password-file .vault_pass
-                rm .vault_pass
+                ansible-playbook sites.yml --vault-password-file ./.vault_pass
+                rm -rf .vault_pass
