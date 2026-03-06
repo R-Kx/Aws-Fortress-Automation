@@ -9,6 +9,12 @@ on:
           - main
     workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write
+  checks: write
+  pull-requests: write
+
 jobs:
     Lint-Job:
         uses: ./.github/workflows/Lint.yml

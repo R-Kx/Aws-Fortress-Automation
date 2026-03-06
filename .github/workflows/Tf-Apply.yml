@@ -7,9 +7,6 @@ on:
 jobs:
     Terraform-Apply:
         runs-on: ubuntu-latest
-        permissions:
-            id-token: write
-            contents: read
         defaults:
             run:
                 working-directory: terraform-infra

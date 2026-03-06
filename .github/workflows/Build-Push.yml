@@ -7,10 +7,6 @@ on:
 jobs:
   Build-Push:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-      
     steps:
       - name: Code checkout
         uses: actions/checkout@v5

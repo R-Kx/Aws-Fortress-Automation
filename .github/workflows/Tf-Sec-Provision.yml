@@ -3,9 +3,6 @@ name: Tf-Sec-Provision
 on:
     workflow_call:
     workflow_dispatch:
-permissions:
-    id-token: write
-    contents: read
 
 jobs:
     Security-Scan:

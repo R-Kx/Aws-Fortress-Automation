@@ -3,10 +3,6 @@ name: Lint
 on:
  workflow_call:
  workflow_dispatch:
-permissions:
-  contents: read
-  checks: write
-
 jobs:
   Lint:
     runs-on: ubuntu-latest
