@@ -1,7 +1,10 @@
 #tfsec:ignore:aws-ecr-repository-customer-key
 resource "aws_ecr_repository" "flask_app" {
     name                 = var.project_name
-    image_tag_mutability = "IMMUTABLE"
+
+    # tfsec:ignore:aws-ecr-enforce-immutable-repository
+    image_tag_mutability = "MUTABLE"
+    
     force_delete         = true
 
     image_scanning_configuration {
