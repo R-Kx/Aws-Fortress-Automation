@@ -62,3 +62,45 @@ graph TB
     SM_EP -.-> SM
     NAT --> IGW
 ```
+
+
+``` mermaid
+graph LR
+    subgraph Development [Local Dev]
+        Code[Git Push]
+    end
+
+    subgraph CI_Stage [CI: Quality & Security]
+        Lint[Lint-Job: Flake8]
+        Test[Unit-Test: Pytest]
+        TfSec[Security: tfsec Scan]
+        IAM_Val[IAM Policy Validator]
+        
+        Code --> Lint
+        Lint --> Test
+        Test --> TfSec
+        TfSec --> IAM_Val
+    end
+
+    subgraph Build_Stage [Build & Artifacts]
+        Docker[Docker Build]
+        ECR[Push to AWS ECR]
+        
+        IAM_Val --> Docker
+        Docker --> ECR
+    end
+
+    subgraph CD_Stage [CD: Provision & Deploy]
+        TfApply[Terraform Apply]
+        Ansible[Ansible via SSM]
+        App((Flask App Live))
+        
+        ECR --> TfApply
+        TfApply --> Ansible
+        Ansible --> App
+    end
+
+    style TfSec fill:#f96,stroke:#333,stroke-width:2px
+    style IAM_Val fill:#f96,stroke:#333,stroke-width:2px
+    style Ansible fill:#69f,stroke:#333,stroke-width:2px
+```
