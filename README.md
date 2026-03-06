@@ -104,3 +104,38 @@ graph LR
     style IAM_Val fill:#f96,stroke:#333,stroke-width:2px
     style Ansible fill:#69f,stroke:#333,stroke-width:2px
 ```
+
+``` mermaid
+graph LR
+    subgraph GitHub_Runner [GitHub Actions Runner]
+        Ansible[Ansible Playbook]
+        DynInv[<b>Dynamic Inventory</b><br/>aws_ec2 plugin]
+        SSM_Plugin[AWS SSM Plugin]
+        
+        Ansible --> DynInv
+        DynInv -->|Fetch Running Instances| AWS_API
+        Ansible --> SSM_Plugin
+    end
+
+    subgraph AWS_Control_Plane [AWS Global Infrastructure]
+        AWS_API((AWS EC2 API))
+        SSM_Service((AWS Systems Manager))
+    end
+
+    subgraph Private_Network [VPC: Private Subnet]
+        direction TB
+        subgraph EC2_Instance [Target: Flask Server]
+            Agent[SSM Agent]
+            Docker[Docker Engine]
+        end
+        FW[Security Group: Port 22 CLOSED]
+    end
+
+    %% Connectivity Flow
+    SSM_Plugin -->|HTTPS:443| SSM_Service
+    SSM_Service -->|Secure Tunnel| Agent
+    Agent -->|Execute Commands| Docker
+    
+    style DynInv fill:#fff4dd,stroke:#d4a017,stroke-width:2px
+    style FW fill:#fdd,stroke:#f66,stroke-width:2px
+```
