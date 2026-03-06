@@ -42,9 +42,6 @@ This repository contains the complete Infrastructure as Code (IaC) and Configura
 
 ## 🗺️ Architecture & Flow Diagrams
 
-### 1. High-Level AWS Infrastructure
-The core network and resource topology, demonstrating public/private isolation and VPC endpoints.
-
 ```mermaid
 graph TD
     subgraph AWS_Cloud [AWS Cloud - Region: eu-central-1]
