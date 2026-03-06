@@ -4,6 +4,7 @@
 [![AWS](https://img.shields.io/badge/AWS-Cloud-FF9900.svg?logo=amazon-aws)](https://aws.amazon.com/)
 [![Ansible](https://img.shields.io/badge/Ansible-SSM_Managed-EE0000.svg?logo=ansible)](https://www.ansible.com/)
 [![Security](https://img.shields.io/badge/Security-tfsec_|_WAF-brightgreen.svg)]()
+[![CI/CD Pipeline](https://github.com/R-Kx/Aws-Fortress-Automation/actions/workflows/main.yml/badge.svg)](https://github.com/R-Kx/Aws-Fortress-Automation/actions)
 
 A highly available, strictly secured, and fully automated infrastructure platform deployed on AWS. This project demonstrates modern **DevSecOps** principles, focusing on Zero-Trust connectivity, automated provisioning, and robust monitoring.
 
