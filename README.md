@@ -1,3 +1,4 @@
+
 ``` mermaid
 graph TD
     subgraph AWS_Cloud [AWS Cloud - Region: eu-central-1]
@@ -32,4 +33,4 @@ graph TD
     Flask -.-> Secrets_EP
     NAT -.-> IGW
     IGW --> User
-    ```
+```
