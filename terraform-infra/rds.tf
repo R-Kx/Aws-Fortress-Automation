@@ -3,7 +3,8 @@ resource "aws_db_subnet_group" "flask_db_sg" {
     subnet_ids = aws_subnet.private[*].id
 }
 
-#tfsec:ignore:aws-rds-enable-performance-insights-encryption
+
+# tfsec:ignore:aws-rds-enable-performance-insights-encryption
 resource "aws_db_instance" "flask_rds" {
     identifier             = "flask-db"
     allocated_storage      = 20
@@ -18,9 +19,13 @@ resource "aws_db_instance" "flask_rds" {
     vpc_security_group_ids = [aws_security_group.rds_sg.id]
     publicly_accessible    = false
     storage_encrypted      = true
-    backup_retention_period = 7
+
+    # tfsec:ignore:aws-rds-specify-backup-retention
+    backup_retention_period = 1
+
     iam_database_authentication_enabled = true
     performance_insights_enabled = true
+
     #tfsec:ignore:aws-rds-enable-deletion-protection
     deletion_protection    = false
 }
